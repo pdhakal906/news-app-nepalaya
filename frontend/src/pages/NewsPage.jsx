@@ -27,6 +27,7 @@ const NewsPage = () => {
 
   return (
     <>
+      <NewsForm></NewsForm>
       <Grid>
 
 
@@ -45,7 +46,7 @@ const NewsPage = () => {
 
                   <Group justify="space-between" mt="md" mb="xs">
                     <Text fw={500}>{item.title}</Text>
-                    <Badge color="pink">On Sale</Badge>
+                    <Badge color="pink">{item.author.first_name} {item.author.last_name}</Badge>
                   </Group>
 
                   <Text size="sm" c="dimmed">
@@ -64,7 +65,7 @@ const NewsPage = () => {
 
 
       </Grid>
-      <NewsForm></NewsForm>
+
 
     </>
   );
