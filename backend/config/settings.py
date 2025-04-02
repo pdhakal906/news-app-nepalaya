@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "news_app.apps.NewsAppConfig",
     "corsheaders",
+    "rest_framework_simplejwt",
     "rest_framework",
     "api.apps.ApiConfig",
     "drf_yasg",
@@ -77,10 +78,34 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    "DEFAULT_RENDERER_CLASSES": [
+        "api.interceptor.response_interceptor.CustomJSONRenderer",
+    ],
+
+    "DEFAULT_PAGINATION_CLASS": "api.interceptor.response_interceptor.CustomPagination",
+    "PAGE_SIZE": 10,
+}
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    },
+    "USE_SESSION_AUTH": False,
+    "JSON_EDITOR": True,
+    "SECURE_SCHEMA": "https",
+}
+
+
 AUTH_USER_MODEL = "news_app.User"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+
+MEDIA_ROOT = "news-photos"
+MEDIA_URL = "/media/"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -94,6 +119,11 @@ DATABASES = {
         "HOST": "localhost",
         "PORT": "5432",
     }
+}
+
+SIMPLE_JWT = {
+   "TOKEN_OBTAIN_SERIALIZER": "api.serializers.MyTokenObtainPairSerializer",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
 }
 
 

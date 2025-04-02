@@ -4,6 +4,7 @@ __pycache__
 migrations
 db.sqlite3
 .history
+news-photos
 
 
 node_modules
