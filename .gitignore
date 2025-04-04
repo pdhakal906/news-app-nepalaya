@@ -5,6 +5,7 @@ migrations
 db.sqlite3
 .history
 news-photos
+.env
 
 
 node_modules
