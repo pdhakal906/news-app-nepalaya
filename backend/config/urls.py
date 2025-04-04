@@ -41,7 +41,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path("admin/", admin.site.urls),
-    path("api/news", include("api.urls")),
+    path("api", include("api.urls")),
     path(
         "swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"
     ),

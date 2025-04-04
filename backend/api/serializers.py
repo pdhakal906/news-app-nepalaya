@@ -5,6 +5,36 @@ import os
 from datetime import datetime
 from django.conf import settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+        model = User
+        fields = ["id", "email", "password", "role"]
+  
+
+  def create(self, validated_data):
+        user = User.objects.create_user(
+            **validated_data, username=validated_data["email"]
+        )
+
+        try:
+            send_mail(
+                "Welcome to News App",
+                f"Hi this is to confirm you have sucessfully registered ",
+                settings.EMAIL_HOST_USER,
+                [user.email],
+            )
+        except Exception as e:
+            print(e)
+            pass
+
+
+
+        return user
 
 
 
